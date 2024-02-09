@@ -2,10 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ball : MonoBehaviour
 {
     public float speed = 15f;
+
+    public int bluescore;
+    public int redscore;
+    public Text redTextScore;
+    public Text blueTextScore;
     void Start()
     {
         gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
@@ -39,6 +45,19 @@ public class Ball : MonoBehaviour
 
             GetComponent<Rigidbody2D>().velocity = dir * speed;
         }
+
+        if (other.gameObject.name == "LeftWall")
+        {
+            redscore++;
+            redTextScore.text = "" + redscore;
+        }
+        
+        if (other.gameObject.name == "RightWall")
+        {
+            bluescore++;
+            blueTextScore.text = "" + bluescore;
+        }
+        
 
     }
 }
