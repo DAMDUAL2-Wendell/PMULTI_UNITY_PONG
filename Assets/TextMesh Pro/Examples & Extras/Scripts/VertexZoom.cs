@@ -9,6 +9,7 @@ namespace TMPro.Examples
 
     public class VertexZoom : MonoBehaviour
     {
+        /*
         public float AngleMultiplier = 1.0f;
         public float SpeedMultiplier = 1.0f;
         public float CurveScale = 1.0f;
@@ -187,6 +188,7 @@ namespace TMPro.Examples
                 yield return new WaitForSeconds(0.1f);
             }
         }
+        */
 
     }
 }
