@@ -26,8 +26,8 @@ public class Ball : MonoBehaviour
         rb.velocity = Vector2.right * speed;
 
         // Encuentra los objetos Text para el marcador
-        redTextScore = GameObject.Find("redTextScore").GetComponent<Text>();
-        blueTextScore = GameObject.Find("blueTextScore").GetComponent<Text>();
+        //redTextScore = GameObject.Find("redTextScore").GetComponent<Text>();
+        //blueTextScore = GameObject.Find("blueTextScore").GetComponent<Text>();
     }
 
     void reiniciarPelota()
@@ -82,15 +82,15 @@ public class Ball : MonoBehaviour
         }
         else if (other.gameObject.name == "LeftWall")
         {
-            redscore++;
-            redTextScore.text = redscore.ToString();
+            //redscore++;
+            //redTextScore.text = redscore.ToString();
             StartCoroutine(ChangeColorAndRestore(other.gameObject, Color.magenta, 0.5f));
             //reiniciarPelota();
         }
         else if (other.gameObject.name == "RightWall")
         {
-            bluescore++;
-            blueTextScore.text = bluescore.ToString();
+            //bluescore++;
+            //blueTextScore.text = bluescore.ToString();
             StartCoroutine(ChangeColorAndRestore(other.gameObject, Color.magenta, 0.5f));
             //reiniciarPelota();
         }
