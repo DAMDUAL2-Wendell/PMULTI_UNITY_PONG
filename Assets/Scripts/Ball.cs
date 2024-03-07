@@ -11,7 +11,8 @@ public class Ball : MonoBehaviour
     private float tiempoTranscurrido = 0f;
 
     // Posición Inicial de la pelota en el centro, X e Y
-    private Vector2 posInicial = new Vector2(10f,6f);
+    private Vector2 posInicial = new Vector2(0f,0f);
+    private Vector2 velocidadParada = new Vector2(0f,0f);
 
     public int bluescore;
     public int redscore;
@@ -26,14 +27,14 @@ public class Ball : MonoBehaviour
         rb.velocity = Vector2.right * speed;
 
         // Encuentra los objetos Text para el marcador
-        //redTextScore = GameObject.Find("redTextScore").GetComponent<Text>();
-        //blueTextScore = GameObject.Find("blueTextScore").GetComponent<Text>();
+        redTextScore = GameObject.Find("redTextScore").GetComponent<Text>();
+        blueTextScore = GameObject.Find("blueTextScore").GetComponent<Text>();
     }
 
     void reiniciarPelota()
     {
         rb.position = posInicial;
-        rb.velocity = Vector2.right * speed;
+        rb.velocity = velocidadParada;
     }
 
     private void Update()
@@ -46,6 +47,14 @@ public class Ball : MonoBehaviour
                 speed += speedIncreaseAmount;
             }
             tiempoTranscurrido = 0f;
+        }
+
+        if (rb.position == posInicial && rb.velocity == velocidadParada)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = Vector2.right * speed;
+            }
         }
         
     }
@@ -82,17 +91,17 @@ public class Ball : MonoBehaviour
         }
         else if (other.gameObject.name == "LeftWall")
         {
-            //redscore++;
-            //redTextScore.text = redscore.ToString();
+            redscore++;
+            redTextScore.text = redscore.ToString();
             StartCoroutine(ChangeColorAndRestore(other.gameObject, Color.magenta, 0.5f));
-            //reiniciarPelota();
+            reiniciarPelota();
         }
         else if (other.gameObject.name == "RightWall")
         {
-            //bluescore++;
-            //blueTextScore.text = bluescore.ToString();
+            bluescore++;
+            blueTextScore.text = bluescore.ToString();
             StartCoroutine(ChangeColorAndRestore(other.gameObject, Color.magenta, 0.5f));
-            //reiniciarPelota();
+            reiniciarPelota();
         }
     }
 

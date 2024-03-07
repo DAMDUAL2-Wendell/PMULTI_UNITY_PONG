@@ -8,5 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/startPong.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/menuPong.unity
+    guid: 3809fb39b5a6c414d9e0ebcb4d0ae4c7
+  - enabled: 1
+    path: Assets/Scenes/2Players.unity
+    guid: 28e32c9d8e1412045845a9b7ee1d9cba
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
