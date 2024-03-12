@@ -11,13 +11,15 @@ public class Ball : MonoBehaviour
     private float tiempoTranscurrido = 0f;
 
     // Posición Inicial de la pelota en el centro, X e Y
-    private Vector2 posInicial = new Vector2(0f,0f);
-    private Vector2 velocidadParada = new Vector2(0f,0f);
+    private Vector2 posInicial = new Vector2(0f, 0f);
+    private Vector2 velocidadParada = new Vector2(0f, 0f);
 
     public int bluescore;
     public int redscore;
     public Text redTextScore;
     public Text blueTextScore;
+
+    public Text notificationText;
 
     private Rigidbody2D rb;
 
@@ -29,6 +31,8 @@ public class Ball : MonoBehaviour
         // Encuentra los objetos Text para el marcador
         redTextScore = GameObject.Find("redTextScore").GetComponent<Text>();
         blueTextScore = GameObject.Find("blueTextScore").GetComponent<Text>();
+        notificationText = GameObject.Find("notificationText").GetComponent<Text>();
+        notificationText.gameObject.SetActive(false);
     }
 
     void reiniciarPelota()
@@ -56,7 +60,39 @@ public class Ball : MonoBehaviour
                 rb.velocity = Vector2.right * speed;
             }
         }
-        
+
+        if (bluescore >= 10)
+        {
+            ShowNotification("Enhorabuena Jugador1, has ganado!");
+            reiniciarPartida();
+        }
+        if (redscore >= 10)
+        {
+            ShowNotification("Enhorabuena Jugador1, has ganado!");
+            reiniciarPartida();
+        }
+
+    }
+
+    private void ShowNotification(string message)
+    {
+        notificationText.text = message;
+        notificationText.gameObject.SetActive(true);
+    }
+
+    private void reiniciarPartida()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            reiniciarPelota();
+            reiniciarMarcadores();
+        }
+    }
+
+    private void reiniciarMarcadores()
+    {
+        redscore = 0;
+        bluescore = 0;
     }
 
     IEnumerator ChangeColorAndRestore(GameObject obj, Color newColor, float duration)
