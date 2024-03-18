@@ -28,6 +28,8 @@ public class Ball : MonoBehaviour
 
     public Text notificationText;
 
+    private bool juegoTerminado = false;
+
     private Rigidbody2D rb;
 
     void Start()
@@ -53,40 +55,43 @@ public class Ball : MonoBehaviour
 
         tiempoRestante = tiempoInicial;
 
-        
+
     }
 
-    private void ActualizarHora(){
-        // Actualizar el tiempo restante
-        tiempoRestante -= Time.deltaTime;
-
-        // Convertir el tiempo restante a minutos y segundos
-        int minutos = Mathf.FloorToInt(tiempoRestante / 60);
-        int segundos = Mathf.FloorToInt(tiempoRestante % 60);
-
-        // Actualizar el texto del contador
-        reloj.text = string.Format("{0:00}:{1:00}", minutos, segundos);
-
-        // Verificar si el tiempo ha llegado a cero
-        if (tiempoRestante <= 0f)
+    private void ActualizarHora()
+    {
+        // Si el tiempo restante es mayor que 0 y el juego no ha terminado
+        if (tiempoRestante > 0f && !juegoTerminado)
         {
-            tiempoRestante = 0f;
+            // Actualizar el tiempo restante
+            tiempoRestante -= Time.deltaTime;
 
-           // Parar la bola
-            rb.velocity = Vector2.zero;
+            // Convertir el tiempo restante a minutos y segundos
+            int minutos = Mathf.Max(0, Mathf.FloorToInt(tiempoRestante / 60)); // Asegurar que los minutos no sean negativos
+            int segundos = Mathf.Max(0, Mathf.FloorToInt(tiempoRestante % 60)); // Asegurar que los segundos no sean negativos
 
-            // Reiniciar el tiempo
-            reloj.text = "03:00"; // Establecer el tiempo inicial
-            tiempoRestante = tiempoInicial; // Reiniciar el tiempo restante
+            // Actualizar el texto del contador
+            reloj.text = string.Format("{0:00}:{1:00}", minutos, segundos);
 
+            // Verificar si el tiempo ha llegado a cero
+            if (tiempoRestante <= 0f)
+            {
+                tiempoRestante = 0f;
 
-            ComprobarGanador();
-            reiniciarPartida();
+                // Detener el juego
+                juegoTerminado = true;
 
+                // Parar la bola
+                rb.velocity = Vector2.zero;
 
-            Debug.Log("¡Tiempo agotado!");
+                // Comprobar el ganador
+                ComprobarGanador();
+
+                Debug.Log("¡Tiempo agotado!");
+            }
         }
     }
+
 
     // Método para reiniciar la pelota a la posición central y establecer la velocidad a 0.
     void reiniciarPelota()
@@ -96,14 +101,66 @@ public class Ball : MonoBehaviour
         SPEED = INITIAL_SPEED;
     }
 
-   
+
 
     // Método Update que se actualiza en cada Frame del renderizado.
-    private void Update()
+    void Update()
     {
-        // Aumentar el tiempo en la variable elapsedTime
-        elapsedTime += Time.deltaTime;
+        if (juegoTerminado)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                reiniciarPartida();
+            }
+            return;
+        }
 
+        if (!juegoTerminado)
+        {
+            // Aumentar el tiempo en la variable elapsedTime
+            elapsedTime += Time.deltaTime;
+
+            // Si la pelota está en posición central y su velocidad es 0, y el juego no ha terminado,
+            // comprobamos si se pulsa la tecla espacio para comenzar el movimiento de la pelota.
+            if (rb.position == posInicial && rb.velocity == velocidadParada)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    // Comenzar el movimiento de la pelota
+                    rb.velocity = Vector2.right * SPEED;
+                }
+            }
+            // Si el tiempo restante es mayor que 0 y el juego no ha terminado, actualizamos el tiempo restante.
+            if (tiempoRestante > 0f)
+            {
+                ActualizarHora();
+            }
+            else
+            {
+                // Si el tiempo ha llegado a cero, detenemos el juego y comprobamos el ganador.
+                juegoTerminado = true;
+                rb.velocity = velocidadParada;
+                ComprobarGanador();
+            }
+        }
+
+    }
+
+
+    private void ComenzarMovimientoConEspacio()
+    {
+        // Si la pelota está en posición central y su velocidad es 0 comprobamos si se pulsa la tecla espacio para comenzar el movimiento de la pelota.
+        if (rb.position == posInicial && rb.velocity == velocidadParada)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = Vector2.right * SPEED;
+            }
+        }
+    }
+
+    private void IncrementarVelocidadBola()
+    {
         // Si el tiempo transcurrido es superior o igual a un tiempo definido en TIME_INCREASE_SPEED, aumentamos la velocidad de la pelota.
         if (elapsedTime >= TIME_INCREASE_SPEED)
         {
@@ -113,51 +170,41 @@ public class Ball : MonoBehaviour
             }
             elapsedTime = 0f;
         }
-
-        // Si la pelota está en posición central y su velocidad es 0 comprobamos si se pulsa la tecla espacio para comenzar el movimiento de la pelota.
-        if (rb.position == posInicial && rb.velocity == velocidadParada)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.velocity = Vector2.right * SPEED;
-            }
-        }
-
-        ComprobarMarcadores();
-        ActualizarHora();
-
     }
 
-    private void ComprobarMarcadores(){
+    private void ComprobarGoles()
+    {
         // Finalizar el juego si el marcador del jugador uno llega a 5.
         if (bluescore >= 5)
         {
             ShowNotification("Enhorabuena Jugador1, has ganado!\nPara jugar otra vez pulsar espacio.");
-
             // Reiniciar partida (Hay que pulsar espacio para que reinicie).
             reiniciarPartida();
-
         }
 
         // Finalizar el juego si el marcador del jugador dos llega a 5.
         if (redscore >= 5)
         {
             ShowNotification("Enhorabuena Jugador2, has ganado!\nPara jugar otra vez pulsar espacio.");
-
             // Reiniciar partida (Hay que pulsar espacio para que reinicie).
             reiniciarPartida();
         }
     }
 
-    private void ComprobarGanador(){
-        if(bluescore == 0 && redscore == 0){
-            ShowNotification("Los marcadores están a 0, nadie ha ganado.\nPara jugar otra vez pulsar espacio.");
+    private void ComprobarGanador()
+    {
+        // Solo comprobar si el juego no ha terminado
+        if (bluescore == 0 && redscore == 0)
+        {
+            ShowNotification("Tiempo Agotado!\nLos marcadores están a 0, nadie ha ganado.\nPara jugar otra vez pulsar espacio.");
         }
-        if(bluescore > redscore){
-            ShowNotification("Enhorabuena Jugador1, has ganado!\nPara jugar otra vez pulsar espacio.");
+        else if (bluescore > redscore)
+        {
+            ShowNotification("Tiempo Agotado!\nEnhorabuena Jugador1, has ganado!\nPara jugar otra vez pulsar espacio.");
         }
-        if(redscore > bluescore){
-            ShowNotification("Enhorabuena Jugador2, has ganado!\nPara jugar otra vez pulsar espacio.");
+        else if (redscore > bluescore)
+        {
+            ShowNotification("Tiempo Agotado!\nEnhorabuena Jugador2, has ganado!\nPara jugar otra vez pulsar espacio.");
         }
     }
 
@@ -168,24 +215,28 @@ public class Ball : MonoBehaviour
         notificationText.gameObject.SetActive(true);
     }
 
-    private void HideNotification(){
+    private void HideNotification()
+    {
         notificationText.gameObject.SetActive(false);
     }
 
-    // Método para reiniciar la partida, primero reinicia la pelota a la posición central y luego reinicia los marcadores.
+    // Método para reiniciar la partida
     private void reiniciarPartida()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            reiniciarMarcadores();
-            ActualizarLabelsMarcadores();
-            HideNotification();
-            reloj.text = "03:00";
-            tiempoRestante = tiempoInicial;
-        }
+        // Reiniciar los marcadores y el tiempo restante
+        reiniciarMarcadores();
+        ActualizarLabelsMarcadores();
+        HideNotification();
+        tiempoRestante = tiempoInicial;
+        
+        juegoTerminado = false;
+
+        // Reiniciar la posición y el movimiento de la pelota
+        reiniciarPelota();
     }
 
-    private void ActualizarLabelsMarcadores(){
+    private void ActualizarLabelsMarcadores()
+    {
         redTextScore.text = "0";
         blueTextScore.text = "0";
     }

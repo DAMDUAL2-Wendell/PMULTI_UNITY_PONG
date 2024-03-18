@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      polar-lights-5858656_1280_0: -8101815797704909162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
