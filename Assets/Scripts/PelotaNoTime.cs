@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ball : MonoBehaviour
+public class PelotaNoTime : MonoBehaviour
 {
     public float INITIAL_SPEED = 8f;
     public float SPEED = 8f;
@@ -24,11 +24,18 @@ public class Ball : MonoBehaviour
     public Text redTextScore;
     public Text blueTextScore;
 
+    public bool withTime = false; // Controla si se juega con tiempo o no
+    public int maxScore = 5; // Máximo puntaje requerido para ganar en el modo sin tiempo
+
+
     public Text reloj;
 
     public Text notificationText;
 
     private bool juegoTerminado = false;
+
+    private bool isBallMoving = false;
+    private bool isPaused = false;
 
     private Rigidbody2D rb;
 
@@ -55,7 +62,96 @@ public class Ball : MonoBehaviour
 
         tiempoRestante = tiempoInicial;
 
+        if (!withTime)
+        {
+            // Ocultar el reloj si el juego se juega sin tiempo
+            reloj.gameObject.SetActive(withTime);
+        }
 
+
+    }
+
+    // Método Update que se actualiza en cada Frame del renderizado.
+    void Update()
+    {
+        // Verificar si se presiona la tecla P para pausar o reanudar el juego
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            isPaused = !isPaused; // Cambiar el estado de pausa
+
+            // Si el juego está pausado, detener el tiempo
+            if (isPaused)
+            {
+                Time.timeScale = 0f; // Detener el tiempo
+                ShowNotification("PAUSADO");
+            }
+            else
+            {
+                Time.timeScale = 1f; // Reanudar el tiempo
+                HideNotification();
+            }
+        }
+        // Verificar si se presiona la tecla Escape o la tecla de retroceso en dispositivos móviles
+    if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+    {
+        // Cargar la escena del menú principal
+        UnityEngine.SceneManagement.SceneManager.LoadScene("menuPong");
+    }
+        // Verificar si la pelota está en movimiento
+        if (rb.velocity.magnitude > 0)
+        {
+            isBallMoving = true;
+        }
+        else
+        {
+            isBallMoving = false;
+        }
+
+
+        // Actualizar el tiempo solo si el modo con tiempo está activado
+        if (withTime && isBallMoving)
+        {
+            ActualizarHora();
+        }
+        else if (!withTime && !juegoTerminado)
+        {
+            ComprobarGolesSinTiempo();
+        }
+
+
+
+        if (juegoTerminado)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                reiniciarPartida();
+            }
+            return;
+        }
+        // Incrementar el tiempo transcurrido
+        elapsedTime += Time.deltaTime;
+
+        // Si la pelota está en posición central y su velocidad es 0, y el juego no ha terminado,
+        // comprobamos si se pulsa la tecla espacio para comenzar el movimiento de la pelota.
+        if (rb.position == posInicial && rb.velocity == velocidadParada)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                // Comenzar el movimiento de la pelota
+                rb.velocity = Vector2.right * SPEED;
+            }
+        }
+
+    }
+
+    private void ComprobarGolesSinTiempo()
+    {
+        // Verificar si algún jugador ha alcanzado el puntaje máximo
+        if (bluescore >= maxScore || redscore >= maxScore)
+        {
+            juegoTerminado = true;
+            ComprobarGanador();
+        }
     }
 
     private void ActualizarHora()
@@ -63,6 +159,11 @@ public class Ball : MonoBehaviour
         // Si el tiempo restante es mayor que 0 y el juego no ha terminado
         if (tiempoRestante > 0f && !juegoTerminado)
         {
+            if (!isBallMoving)
+            {
+                // Si la pelota está quieta, no se actualiza el tiempo
+                return;
+            }
             // Actualizar el tiempo restante
             tiempoRestante -= Time.deltaTime;
 
@@ -103,48 +204,7 @@ public class Ball : MonoBehaviour
 
 
 
-    // Método Update que se actualiza en cada Frame del renderizado.
-    void Update()
-    {
-        if (juegoTerminado)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                reiniciarPartida();
-            }
-            return;
-        }
 
-        if (!juegoTerminado)
-        {
-            // Aumentar el tiempo en la variable elapsedTime
-            elapsedTime += Time.deltaTime;
-
-            // Si la pelota está en posición central y su velocidad es 0, y el juego no ha terminado,
-            // comprobamos si se pulsa la tecla espacio para comenzar el movimiento de la pelota.
-            if (rb.position == posInicial && rb.velocity == velocidadParada)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    // Comenzar el movimiento de la pelota
-                    rb.velocity = Vector2.right * SPEED;
-                }
-            }
-            // Si el tiempo restante es mayor que 0 y el juego no ha terminado, actualizamos el tiempo restante.
-            if (tiempoRestante > 0f)
-            {
-                ActualizarHora();
-            }
-            else
-            {
-                // Si el tiempo ha llegado a cero, detenemos el juego y comprobamos el ganador.
-                juegoTerminado = true;
-                rb.velocity = velocidadParada;
-                ComprobarGanador();
-            }
-        }
-
-    }
 
 
     private void ComenzarMovimientoConEspacio()
@@ -193,18 +253,21 @@ public class Ball : MonoBehaviour
 
     private void ComprobarGanador()
     {
-        // Solo comprobar si el juego no ha terminado
         if (bluescore == 0 && redscore == 0)
         {
-            ShowNotification("Tiempo Agotado!\nLos marcadores están a 0, nadie ha ganado.\nPara jugar otra vez pulsar espacio.");
+            ShowNotification("¡Tiempo Agotado!\nLos marcadores están a 0, nadie ha ganado.\nPara jugar otra vez pulsar espacio.");
         }
         else if (bluescore > redscore)
         {
-            ShowNotification("Tiempo Agotado!\nEnhorabuena Jugador1, has ganado!\nPara jugar otra vez pulsar espacio.");
+            ShowNotification("¡Tiempo Agotado!\nEnhorabuena Jugador de la izquierda, has ganado!\nPara jugar otra vez pulsar espacio.");
         }
         else if (redscore > bluescore)
         {
-            ShowNotification("Tiempo Agotado!\nEnhorabuena Jugador2, has ganado!\nPara jugar otra vez pulsar espacio.");
+            ShowNotification("¡Tiempo Agotado!\nEnhorabuena Jugador de la derecha, has ganado!\nPara jugar otra vez pulsar espacio.");
+        }
+        else
+        {
+            ShowNotification("¡Tiempo Agotado!\nEmpate!\nPara jugar otra vez pulsar espacio.");
         }
     }
 
@@ -220,20 +283,23 @@ public class Ball : MonoBehaviour
         notificationText.gameObject.SetActive(false);
     }
 
-    // Método para reiniciar la partida
     private void reiniciarPartida()
     {
-        // Reiniciar los marcadores y el tiempo restante
         reiniciarMarcadores();
         ActualizarLabelsMarcadores();
         HideNotification();
         tiempoRestante = tiempoInicial;
-        
         juegoTerminado = false;
-
-        // Reiniciar la posición y el movimiento de la pelota
         reiniciarPelota();
+
+        // Restaurar el modo de juego con tiempo si estaba activado
+        if (withTime)
+        {
+            withTime = true;
+        }
     }
+
+
 
     private void ActualizarLabelsMarcadores()
     {
