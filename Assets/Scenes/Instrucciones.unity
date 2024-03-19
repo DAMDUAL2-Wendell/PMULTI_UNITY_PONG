@@ -443,8 +443,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000023246, y: -41}
-  m_SizeDelta: {x: 993.6401, y: 288.4505}
+  m_AnchoredPosition: {x: 0.000023246, y: -45}
+  m_SizeDelta: {x: 993.6401, y: 380.1483}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535428648
 MonoBehaviour:
@@ -481,11 +481,13 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Instrucciones:\n- El juego consiste en marcar 5 goles, el jugador que
     llegue antes a 5 en su marcador, abr\xE1 ganado la partida.\n- Cada vez que se
-    marca un gol la pelota se reestablecer\xE1 al centro de la pantalla.\n\nControles:\n-
-    Espacio : da movimiento a la pelota cuando est\xE1 en el centro detenida.\n-
-    W : mueve el jugador 1 para arriba.\n- S : mueve el jugador 1 para abajo.\n-
-    Flecha arriba : mueve el jugador 2 para arriba.\n- Flecha abajo : mueve el jugador
-    2 para abajo."
+    marca un gol la pelota se reestablecer\xE1 al centro de la pantalla.\n- Con el
+    modo de juego con tiempo no hay l\xEDmite de goles, al finalizar el tiempo, el
+    ganador ser\xE1 el que haya conseguido marcar m\xE1s goles.\n\nControles:\n-
+    Esc/Retroceso: para salir al men\xFA principal\n- p: pausar el juego.\n- Espacio
+    : da movimiento a la pelota cuando est\xE1 en el centro detenida.\n- W : mueve
+    el jugador 1 para arriba.\n- S : mueve el jugador 1 para abajo.\n- Flecha arriba
+    : mueve el jugador 2 para arriba.\n- Flecha abajo : mueve el jugador 2 para abajo."
 --- !u!222 &535428649
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -666,7 +668,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00002861, y: -220}
+  m_AnchoredPosition: {x: 0.00002861, y: -267}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1991842638

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 338752846}
   - component: {fileID: 338752848}
   - component: {fileID: 338752849}
+  - component: {fileID: 338752850}
   m_Layer: 1
   m_Name: LeftWall
   m_TagString: Untagged
@@ -280,6 +281,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &338752850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338752845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 98198ae4eab714e4c99f88dd377da27b, type: 3}
 --- !u!1 &368004392
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,6 +556,7 @@ GameObject:
   - component: {fileID: 728596240}
   - component: {fileID: 728596241}
   - component: {fileID: 728596242}
+  - component: {fileID: 728596243}
   m_Layer: 0
   m_Name: paddleRed
   m_TagString: Untagged
@@ -705,6 +720,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &728596243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728596237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 8ba86c1fb0bdb5c4ab14634266d733c0, type: 3}
 --- !u!1 &1040351573
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +925,7 @@ GameObject:
   - component: {fileID: 1136737512}
   - component: {fileID: 1136737514}
   - component: {fileID: 1136737515}
+  - component: {fileID: 1136737516}
   m_Layer: 0
   m_Name: UpWall
   m_TagString: Untagged
@@ -1046,6 +1075,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1136737516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136737511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 98198ae4eab714e4c99f88dd377da27b, type: 3}
 --- !u!1 &1521808881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,7 +1104,7 @@ GameObject:
   - component: {fileID: 1521808888}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Pelota
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1238,6 +1280,9 @@ MonoBehaviour:
   maxScore: 5
   reloj: {fileID: 0}
   notificationText: {fileID: 0}
+  playerOneWins: {fileID: 8300000, guid: a318489e95f35ff4896f857ab6930892, type: 3}
+  playerTwoWins: {fileID: 8300000, guid: e4e2889e663bc6245bd356f5115904f5, type: 3}
+  gameOver: {fileID: 8300000, guid: 376c5c33941d9904f94d6ceddf9cd546, type: 3}
 --- !u!1 &1553659891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1544,7 @@ GameObject:
   - component: {fileID: 1734423186}
   - component: {fileID: 1734423188}
   - component: {fileID: 1734423189}
+  - component: {fileID: 1734423190}
   m_Layer: 0
   m_Name: DownWall
   m_TagString: Untagged
@@ -1648,6 +1694,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1734423190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734423185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 98198ae4eab714e4c99f88dd377da27b, type: 3}
 --- !u!1 &1771503627
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,6 +1719,7 @@ GameObject:
   - component: {fileID: 1771503628}
   - component: {fileID: 1771503630}
   - component: {fileID: 1771503631}
+  - component: {fileID: 1771503632}
   m_Layer: 0
   m_Name: RightWall
   m_TagString: Untagged
@@ -1809,6 +1869,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1771503632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771503627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 98198ae4eab714e4c99f88dd377da27b, type: 3}
 --- !u!1 &1900488195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1901,6 +1974,7 @@ GameObject:
   - component: {fileID: 2058073398}
   - component: {fileID: 2058073399}
   - component: {fileID: 2058073400}
+  - component: {fileID: 2058073401}
   m_Layer: 0
   m_Name: paddleBlue
   m_TagString: Untagged
@@ -2064,6 +2138,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2058073401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058073395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3230e51710f584bb379410627a833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sonido: {fileID: 8300000, guid: 8ba86c1fb0bdb5c4ab14634266d733c0, type: 3}
 --- !u!1 &2078499785
 GameObject:
   m_ObjectHideFlags: 0

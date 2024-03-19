@@ -12,7 +12,7 @@ public class Pelota : MonoBehaviour
     public float TIME_INCREASE_SPEED = 0.5f;
     private float elapsedTime = 0f;
 
-    public float tiempoInicial = 5f;
+    public float tiempoInicial = 180f;
     public float tiempoRestante;
 
     // Posición Inicial de la pelota en el centro, X e Y
@@ -39,8 +39,25 @@ public class Pelota : MonoBehaviour
 
     private Rigidbody2D rb;
 
+
+    // Sonidos
+    private AudioSource audioSource;
+
+    public AudioClip playerOneWins; 
+
+    public AudioClip playerTwoWins;
+
+    public AudioClip gameOver;
+
+
     void Start()
     {
+        // Obtener el AudioSource o agregar uno si no existe
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         // Obtener el RigidBody2d del componente actual que es la Bola.
         rb = GetComponent<Rigidbody2D>();
@@ -257,18 +274,26 @@ public class Pelota : MonoBehaviour
         if (bluescore == 0 && redscore == 0)
         {
             ShowNotification("¡Tiempo Agotado!\nLos marcadores están a 0, nadie ha ganado.\nPara jugar otra vez pulsar espacio.");
+            audioSource.clip = gameOver;
+            audioSource.Play();
         }
         else if (bluescore > redscore)
         {
             ShowNotification("¡Tiempo Agotado!\nEnhorabuena Jugador de la izquierda, has ganado!\nPara jugar otra vez pulsar espacio.");
+             audioSource.clip = playerOneWins;
+             audioSource.Play();
         }
         else if (redscore > bluescore)
         {
             ShowNotification("¡Tiempo Agotado!\nEnhorabuena Jugador de la derecha, has ganado!\nPara jugar otra vez pulsar espacio.");
+            audioSource.clip = playerTwoWins;
+            audioSource.Play();
         }
         else
         {
             ShowNotification("¡Tiempo Agotado!\nEmpate!\nPara jugar otra vez pulsar espacio.");
+            audioSource.clip = gameOver;
+            audioSource.Play();
         }
     }
 
